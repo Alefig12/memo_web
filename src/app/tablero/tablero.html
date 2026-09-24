@@ -1,0 +1,96 @@
+<app-encabezado titulo="Tablero de Memos" subtitulo="Toca un recuadro para ver la lista de sus memos." />
+
+<section class="pagina">
+  <div class="fila grandes">
+    @for (r of grandes; track r.id) {
+      <button
+        matRipple
+        class="recuadro grande"
+        [class.elegido]="recuadro()?.id === r.id"
+        [attr.aria-pressed]="recuadro()?.id === r.id"
+        (click)="elegirRecuadro(r)"
+      >
+        <span class="numero">{{ cantidad(r).length }}</span>
+        <span class="nombre">{{ r.titulo }}</span>
+      </button>
+    }
+  </div>
+
+  <div class="fila pequenos">
+    @for (r of pequenos; track r.id; let i = $index) {
+      <button
+        matRipple
+        class="recuadro"
+        [class.claro]="i % 2 === 1"
+        [class.elegido]="recuadro()?.id === r.id"
+        [attr.aria-pressed]="recuadro()?.id === r.id"
+        (click)="elegirRecuadro(r)"
+      >
+        <span class="numero">{{ cantidad(r).length }}</span>
+        <span class="nombre">{{ r.titulo }}</span>
+      </button>
+    }
+  </div>
+
+  <div class="panel">
+    <header>{{ recuadro()?.titulo ?? 'Memos' }}</header>
+
+    @if (!recuadro()) {
+      <p class="vacio">Selecciona uno de los recuadros de arriba para ver la lista de memos.</p>
+    } @else if (memos().length === 0) {
+      <p class="vacio">No tienes memos en esta categoría.</p>
+    } @else {
+      <div class="partes">
+        <ul class="lista">
+          @for (m of memos(); track m.titulo) {
+            <li>
+              <button matRipple class="fila-memo" [class.elegido]="memo() === m" (click)="memo.set(m)">
+                <mat-icon class="decoracion">{{ m.hecho ? 'radio_button_checked' : 'radio_button_unchecked' }}</mat-icon>
+                <span class="textos">
+                  <span>“{{ m.titulo }}”</span>
+                  <span>
+                    {{ m.direccion === 'recibido' ? 'Encargado por:' : 'Encargado a:' }}
+                    <span class="persona">{{ m.persona }}</span>
+                  </span>
+                </span>
+                @if (m.tipo === 'hora') {
+                  <mat-chip class="hora" disableRipple>
+                    <mat-icon matChipAvatar class="lleno">alarm</mat-icon>
+                    {{ m.hora }}
+                  </mat-chip>
+                } @else {
+                  <span class="lugar">
+                    Al pasar por
+                    <span>{{ m.lugar }}</span>
+                  </span>
+                }
+              </button>
+            </li>
+          }
+        </ul>
+
+        <aside class="detalle">
+          @if (memo(); as m) {
+            <div class="titulo">“{{ m.titulo }}”</div>
+            <div class="datos">
+              <div class="dato">
+                <mat-icon>person</mat-icon>
+                <span>
+                  <span class="etiqueta">{{ m.direccion === 'recibido' ? 'Te lo encargó' : 'Se lo encargaste a' }}</span>
+                  <span class="valor">{{ m.persona }}</span>
+                </span>
+              </div>
+              <div class="dato">
+                <mat-icon>{{ m.tipo === 'hora' ? 'alarm' : 'location_on' }}</mat-icon>
+                <span>
+                  <span class="etiqueta">{{ m.tipo === 'hora' ? 'Suena a las' : 'Cuando estés cerca de' }}</span>
+                  <span class="valor">{{ m.tipo === 'hora' ? m.hora : m.lugar }}</span>
+                </span>
+              </div>
+            </div>
+          }
+        </aside>
+      </div>
+    }
+  </div>
+</section>

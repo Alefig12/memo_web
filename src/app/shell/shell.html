@@ -1,0 +1,50 @@
+<header class="barra">
+  <a class="logo" routerLink="/tablero">Memo</a>
+
+  <mat-chip-set class="usuario">
+    <mat-chip>
+      <mat-icon matChipAvatar class="lleno">account_circle</mat-icon>
+      Mi usuario
+    </mat-chip>
+  </mat-chip-set>
+
+  <a mat-icon-button class="salir" routerLink="/login" matTooltip="Cerrar sesión" aria-label="Cerrar sesión">
+    <mat-icon>logout</mat-icon>
+  </a>
+</header>
+
+<div class="cuerpo">
+  <nav class="lateral" [class.cerrado]="cerrado()">
+    <button
+      mat-icon-button
+      class="menu"
+      (click)="cerrado.set(!cerrado())"
+      [attr.aria-label]="cerrado() ? 'Abrir menú' : 'Cerrar menú'"
+    >
+      <mat-icon>{{ cerrado() ? 'menu' : 'menu_open' }}</mat-icon>
+    </button>
+
+    <mat-nav-list class="secciones">
+      @for (s of secciones; track s.ruta) {
+        <a
+          mat-list-item
+          [routerLink]="s.ruta"
+          routerLinkActive
+          #activo="routerLinkActive"
+          [activated]="activo.isActive"
+          [matTooltip]="cerrado() ? s.nombre : ''"
+          matTooltipPosition="right"
+        >
+          <mat-icon matListItemIcon>{{ s.icono }}</mat-icon>
+          @if (!cerrado()) {
+            <span matListItemTitle>{{ s.nombre }}</span>
+          }
+        </a>
+      }
+    </mat-nav-list>
+  </nav>
+
+  <main class="contenido">
+    <router-outlet />
+  </main>
+</div>

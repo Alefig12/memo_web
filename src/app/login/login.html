@@ -1,0 +1,25 @@
+<main class="login">
+  <h1 class="logo">Memo</h1>
+
+  <section class="tarjeta">
+    <header>INICIAR SESIÓN</header>
+
+    <form (ngSubmit)="continuar()">
+      <label class="campo-memo oscuro">
+        <span class="etiqueta">Correo</span>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <input matInput type="email" name="correo" autocomplete="email" />
+        </mat-form-field>
+      </label>
+
+      <label class="campo-memo oscuro">
+        <span class="etiqueta">Contraseña</span>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <input matInput type="password" name="clave" autocomplete="current-password" />
+        </mat-form-field>
+      </label>
+
+      <button mat-flat-button class="boton-cafe continuar" type="submit">Continuar</button>
+    </form>
+  </section>
+</main>

@@ -1,0 +1,167 @@
+<app-encabezado titulo="Mi Historial" subtitulo="Los memos que ya se cerraron y cómo se repartieron entre tú y tu contacto.">
+  <div class="filtros">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" floatLabel="always">
+      <mat-label>Periodo</mat-label>
+      <mat-select placeholder="Selecciona un periodo" [value]="periodo()" (valueChange)="periodo.set($event)">
+        @for (p of periodos; track p) {
+          <mat-option [value]="p">{{ p }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" floatLabel="always">
+      <mat-label>Contacto</mat-label>
+      <mat-select placeholder="Selecciona un contacto" [value]="contacto()" (valueChange)="contacto.set($event)">
+        @for (c of contactos; track c) {
+          <mat-option [value]="c">{{ c }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+</app-encabezado>
+
+<section class="pagina">
+  <div class="numeros">
+    <div class="numero">
+      <span class="cifra">{{ datos()?.total ?? '-' }}</span>
+      <mat-icon class="icono">task_alt</mat-icon>
+      <span class="nombre">Memos cumplidos</span>
+    </div>
+    <div class="numero">
+      <span class="cifra">{{ datos()?.tu ?? '-' }}</span>
+      <span class="nombre">Los hiciste tú</span>
+    </div>
+    <div class="numero">
+      <span class="cifra">{{ datos()?.suyos ?? '-' }}</span>
+      <span class="nombre">Los hizo {{ nombre() || 'Karina' }}</span>
+    </div>
+    <div class="numero">
+      <span class="cifra">{{ datos()?.fallidos ?? '-' }}</span>
+      <mat-icon class="icono">event_busy</mat-icon>
+      <span class="nombre">No se pudieron hacer</span>
+    </div>
+  </div>
+
+  <div class="tarjetas">
+    <article class="tarjeta reparto">
+      <header>
+        <h2>Cómo se repartieron</h2>
+        @if (hayDatos()) {
+          <small>{{ periodo() }}</small>
+        }
+      </header>
+
+      @if (datos(); as d) {
+        <div class="cuerpo">
+          <p class="resumen">
+            De <b>{{ d.total }} memos cumplidos</b>, tú hiciste <b>{{ d.tu }}</b> y {{ nombre() }} hizo <b>{{ d.suyos }}</b>.
+          </p>
+
+          <div class="barra-total">
+            <span class="parte tu" [style.flex]="d.tu">
+              <span>Tú</span><span>{{ d.tu }}</span>
+            </span>
+            <span class="parte suyo" [style.flex]="d.suyos">
+              <span>{{ nombre() }}</span><span>{{ d.suyos }}</span>
+            </span>
+          </div>
+          <div class="leyenda">
+            <span><i class="tu"></i>Tú - {{ d.porcentajeTu }} %</span>
+            <span><i class="suyo"></i>{{ nombre() }} - {{ 100 - d.porcentajeTu }} %</span>
+          </div>
+
+          <h3>Por tipo de memo</h3>
+          <div class="tipo">
+            <span class="etiqueta"><mat-icon>alarm</mat-icon>Por hora</span>
+            <span class="barra">
+              @if (d.porHora.tu) {
+                <span class="tu" [style.flex]="d.porHora.tu">{{ d.porHora.tu }}</span>
+              }
+              @if (d.porHora.contacto) {
+                <span class="suyo" [style.flex]="d.porHora.contacto">{{ d.porHora.contacto }}</span>
+              }
+            </span>
+          </div>
+          <div class="tipo">
+            <span class="etiqueta"><mat-icon>location_on</mat-icon>Por lugar</span>
+            <span class="barra">
+              @if (d.porLugar.tu) {
+                <span class="tu" [style.flex]="d.porLugar.tu">{{ d.porLugar.tu }}</span>
+              }
+              @if (d.porLugar.contacto) {
+                <span class="suyo" [style.flex]="d.porLugar.contacto">{{ d.porLugar.contacto }}</span>
+              }
+            </span>
+          </div>
+
+          <h3>Semana a semana</h3>
+          <div class="semanas">
+            @for (s of d.semanas; track s.etiqueta) {
+              <div class="semana">
+                <div class="columnas">
+                  <span class="columna tu" [style.height.px]="(s.tu / d.maximoSemana) * 72">
+                    <b>{{ s.tu }}</b>
+                  </span>
+                  <span class="columna suyo" [style.height.px]="(s.contacto / d.maximoSemana) * 72">
+                    <b>{{ s.contacto }}</b>
+                  </span>
+                </div>
+                <span class="fecha">{{ s.etiqueta }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      } @else {
+        <p class="vacio">Selecciona un periodo y un contacto para ver<br />cómo se repartieron los memos.</p>
+      }
+    </article>
+
+    <article class="tarjeta cerrados">
+      <header>
+        <h2>Memos cerrados</h2>
+        @if (hayDatos()) {
+          <small>{{ datos()?.cerrados }} en total</small>
+        }
+      </header>
+
+      <mat-tab-group
+        class="pestanas"
+        mat-stretch-tabs
+        animationDuration="0ms"
+        [selectedIndex]="pestana()"
+        (selectedIndexChange)="pestana.set($event)"
+      >
+        <mat-tab label="Todos" />
+        <mat-tab label="Encargados por mí" />
+        <mat-tab label="Recibidos" />
+      </mat-tab-group>
+
+      @if (hayDatos()) {
+        <div class="lista">
+          @for (g of grupos(); track g.semana) {
+            <h3>{{ g.semana }}</h3>
+            @for (m of g.memos; track m.titulo) {
+              <div class="memo" [class.fallido]="!m.cumplido">
+                <mat-icon class="estado">{{ m.cumplido ? 'check_circle' : 'cancel' }}</mat-icon>
+                <span class="textos">
+                  <span class="titulo">“{{ m.titulo }}”</span>
+                  <span class="detalle">{{ detalle(m) }}</span>
+                </span>
+                <mat-chip class="fecha" disableRipple>{{ m.fecha }}</mat-chip>
+              </div>
+            }
+          } @empty {
+            <p class="vacio">No hay memos cerrados en esta pestaña.</p>
+          }
+
+          <button mat-flat-button class="boton-tonal ver-mas" (click)="verMas.set(!verMas())">
+            {{ verMas() ? 'Ver menos' : 'Ver más' }}
+            <mat-icon iconPositionEnd>{{ verMas() ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+          </button>
+        </div>
+      } @else {
+        <p class="vacio">Selecciona un periodo y un contacto para ver los memos cerrados.</p>
+      }
+    </article>
+  </div>
+</section>

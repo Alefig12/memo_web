@@ -1,0 +1,447 @@
+@use '@angular/material' as mat;
+
+$cafe: #504534;
+$ambar: #ffbd35;
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: -10px;
+
+  mat-form-field {
+    width: 260px;
+  }
+
+  @include mat.form-field-overrides((
+    container-height: 48px,
+    container-vertical-padding: 10px,
+    container-text-size: 18px,
+    outlined-outline-color: #79747e,
+    outlined-label-text-color: var(--mat-sys-on-surface-variant),
+    outlined-focus-label-text-color: var(--mat-sys-on-surface-variant),
+    outlined-focus-outline-color: var(--mat-sys-on-primary-container),
+  ));
+
+  @include mat.select-overrides((
+    trigger-text-size: 18px,
+    trigger-text-weight: 500,
+    enabled-trigger-text-color: #000,
+    placeholder-text-color: var(--mat-sys-outline),
+    enabled-arrow-color: var(--mat-sys-on-surface-variant),
+    panel-background-color: var(--mat-sys-surface-container-high),
+  ));
+}
+
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.pagina {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: clamp(14px, 3.2vh, 55px) clamp(12px, 2.5vw, 36px) 12px clamp(12px, 1vw, 14px);
+}
+
+.numeros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(14px, 3.7vw, 54px);
+}
+
+.numero {
+  flex: 1 1 200px;
+  height: clamp(92px, 12.5vh, 144px);
+  position: relative;
+  border-radius: 14px;
+  background: var(--mat-sys-surface-container-highest);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+  .cifra {
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    font-size: clamp(48px, min(9.4vh, 6.6vw), 96px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--mat-sys-on-surface);
+  }
+
+  .icono {
+    position: absolute;
+    top: 25px;
+    right: 24px;
+    color: $cafe;
+  }
+
+  .nombre {
+    position: absolute;
+    right: 9px;
+    bottom: 8px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+}
+
+.tarjetas {
+  flex: 1;
+  min-height: 340px;
+  display: flex;
+  gap: 24px;
+  margin-top: clamp(14px, 3vh, 47px);
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 3px;
+  background: var(--mat-sys-surface);
+  overflow: hidden;
+
+  header {
+    flex: none;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px 0 18px;
+    border-bottom: 1px solid var(--mat-sys-outline);
+    background: var(--mat-sys-surface-container-high);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(24px, 2.2vw, 32px);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  small {
+    margin-left: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .vacio {
+    margin: auto;
+    padding: 0 24px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.6;
+    text-align: center;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.reparto {
+  flex: 470;
+
+  .cuerpo {
+    flex: 1;
+    overflow: auto;
+    padding: clamp(8px, 1.6vh, 16px) 32px 8px 18px;
+  }
+
+  .resumen {
+    margin: 0 0 clamp(8px, 2.4vh, 52px);
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  h3 {
+    margin: clamp(6px, 1.8vh, 22px) 0 4px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.barra-total {
+  display: flex;
+  height: clamp(40px, 5.3vh, 54px);
+  border-radius: 16px;
+  overflow: hidden;
+
+  .parte {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px 0 13px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .tu {
+    background: $cafe;
+    color: #fff;
+  }
+
+  .suyo {
+    background: $ambar;
+    color: $cafe;
+  }
+}
+
+.leyenda {
+  display: flex;
+  gap: 30px;
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  color: $cafe;
+
+  i {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    border-radius: 3px;
+    vertical-align: -1px;
+
+    &.tu {
+      background: $cafe;
+    }
+
+    &.suyo {
+      background: $ambar;
+    }
+  }
+}
+
+.tipo {
+  display: flex;
+  align-items: center;
+  margin-bottom: clamp(6px, 1.2vh, 12px);
+
+  .etiqueta {
+    width: 120px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 18px;
+    font-weight: 500;
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .barra {
+    flex: 1;
+    display: flex;
+    height: 32px;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 18px;
+    font-weight: 500;
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tu {
+      background: $cafe;
+      color: #fff;
+    }
+
+    .suyo {
+      background: $ambar;
+      color: $cafe;
+    }
+  }
+}
+
+.semanas {
+  display: flex;
+  justify-content: space-around;
+  gap: 24px;
+  padding: 0 4px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--mat-sys-outline);
+  height: 92px;
+  align-items: flex-end;
+  position: relative;
+}
+
+.semana {
+  position: relative;
+
+  .columnas {
+    display: flex;
+    gap: 6px;
+    align-items: flex-end;
+    margin-left: 18px;
+  }
+
+  .columna {
+    width: 28px;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+
+    b {
+      position: absolute;
+      top: -26px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    &.tu {
+      background: $cafe;
+    }
+
+    &.suyo {
+      background: $ambar;
+    }
+  }
+
+  .fecha {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: -18px;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 18px;
+    font-weight: 500;
+    color: $cafe;
+  }
+}
+
+.cerrados {
+  flex: 676;
+
+  header {
+    background: $ambar;
+  }
+
+  .lista {
+    flex: 1;
+    overflow: auto;
+    padding: 0 8px 12px 8px;
+  }
+
+  h3 {
+    margin: 8px 0 8px 10px;
+    font-size: 18px;
+    font-weight: 500;
+    color: $cafe;
+  }
+}
+
+.pestanas {
+  flex: none;
+  background: var(--mat-sys-surface-container-high);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  @include mat.tabs-overrides((
+    container-height: 40px,
+    active-indicator-color: $cafe,
+    active-focus-indicator-color: $cafe,
+    active-hover-indicator-color: $cafe,
+    active-indicator-height: 3px,
+    active-indicator-shape: 0,
+    active-label-text-color: #201b12,
+    active-focus-label-text-color: #201b12,
+    active-hover-label-text-color: #201b12,
+    inactive-label-text-color: $cafe,
+    inactive-hover-label-text-color: #201b12,
+    label-text-size: 18px,
+    label-text-weight: 500,
+    label-text-font: 'Baloo 2',
+    divider-height: 0,
+  ));
+}
+
+.memo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 56px;
+  margin-bottom: 8px;
+  padding: 0 11px 0 18px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--mat-sys-surface-container-high);
+
+  &.fallido {
+    background: var(--mat-sys-surface);
+    border: 1px dashed var(--mat-sys-outline-variant);
+
+    .estado {
+      color: var(--mat-sys-outline);
+    }
+  }
+
+  .estado {
+    color: $cafe;
+  }
+
+  .textos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .titulo {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .detalle {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.fecha.mat-mdc-chip {
+  @include mat.chips-overrides((
+    container-height: 32px,
+    container-shape-radius: 8px,
+    outline-color: var(--mat-sys-outline),
+    label-text-color: var(--mat-sys-on-secondary-container),
+    label-text-font: 'Roboto',
+    label-text-size: 14px,
+  ));
+
+  background: var(--mat-sys-surface-container-high);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.ver-mas {
+  display: flex;
+  margin: 8px auto 0;
+  width: 162px;
+}
+
+@media (max-width: 1100px) {
+  .tarjetas {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .tarjeta {
+    flex: none;
+    height: auto;
+    min-height: 420px;
+  }
+
+  .cerrados .lista {
+    max-height: 520px;
+  }
+}

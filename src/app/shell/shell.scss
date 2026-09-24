@@ -1,0 +1,132 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.barra {
+  flex: none;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px 0 20px;
+  background: var(--mat-sys-primary);
+  position: relative;
+  z-index: 3;
+}
+
+.logo {
+  font-family: 'Pacifico', cursive;
+  font-size: 48px;
+  line-height: 1;
+  padding-bottom: 6px;
+  color: #000;
+  text-decoration: none;
+}
+
+.usuario {
+  margin-left: auto;
+
+  @include mat.chips-overrides((
+    container-height: 32px,
+    container-shape-radius: 16px,
+    outline-color: var(--mat-sys-outline),
+    elevated-container-color: var(--mat-sys-surface-container-high),
+    label-text-color: var(--mat-sys-outline),
+    label-text-size: 18px,
+    label-text-weight: 500,
+    with-avatar-avatar-size: 24px,
+  ));
+
+  .mat-mdc-chip {
+    background: var(--mat-sys-surface-container-high);
+  }
+
+  mat-icon {
+    color: var(--mat-sys-outline);
+    font-size: 24px;
+  }
+}
+
+.salir {
+  margin-left: 12px;
+  color: var(--mat-sys-outline);
+}
+
+.cuerpo {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.lateral {
+  flex: none;
+  width: 220px;
+  box-sizing: border-box;
+  padding: clamp(12px, 3.5vh, 35px) 20px 0;
+  background: var(--mat-sys-surface-container-high);
+  border-right: 1px solid var(--mat-sys-outline);
+  transition: width 0.2s ease;
+  overflow: hidden;
+
+  &.cerrado {
+    width: 96px;
+  }
+}
+
+.menu {
+  width: 56px;
+  height: 56px;
+  margin-left: 0;
+  color: var(--mat-sys-on-primary-container);
+}
+
+.secciones {
+  margin-top: clamp(24px, 10vh, 100px);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+
+  @include mat.list-overrides((
+    active-indicator-color: var(--mat-sys-outline-variant),
+    active-indicator-shape: 4px,
+    list-item-container-shape: 4px,
+    list-item-one-line-container-height: 44px,
+    list-item-label-text-size: 24px,
+    list-item-label-text-weight: 500,
+    list-item-label-text-color: var(--mat-sys-on-primary-container),
+    list-item-hover-label-text-color: var(--mat-sys-on-primary-container),
+    list-item-leading-icon-color: var(--mat-sys-on-primary-container),
+    list-item-hover-leading-icon-color: var(--mat-sys-on-primary-container),
+    list-item-leading-icon-start-space: 34px,
+    list-item-leading-icon-end-space: 22px,
+  ));
+
+  a {
+    border-radius: 4px;
+    padding-right: 4px;
+  }
+}
+
+.cerrado .secciones {
+  @include mat.list-overrides((
+    list-item-leading-icon-start-space: 16px,
+    list-item-leading-icon-end-space: 0,
+  ));
+
+  a {
+    width: 56px;
+  }
+}
+
+.contenido {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  background: var(--mat-sys-surface);
+}

@@ -1,0 +1,86 @@
+<app-encabezado titulo="Mis Lugares" />
+
+<section class="pagina">
+  <div class="tarjeta lista">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="buscador">
+      <input
+        matInput
+        placeholder="buscar..."
+        [ngModel]="busqueda()"
+        (ngModelChange)="busqueda.set($event)"
+        aria-label="Buscar lugar"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <ul>
+      @for (l of visibles(); track l.id) {
+        <li>
+          <button matRipple class="lugar" [class.elegido]="l.id === elegidoId()" (click)="elegir(l)">
+            <span class="nombre">{{ l.nombre }}</span>
+            <span class="direccion">{{ l.direccion }}</span>
+          </button>
+        </li>
+      } @empty {
+        <li class="sin-lugares">No se encontraron lugares.</li>
+      }
+    </ul>
+  </div>
+
+  <div class="tarjeta mapa">
+    <header>Ubicación en el Mapa</header>
+
+    <div class="cuerpo">
+      <div #mapa class="contenedor-mapa" [class.editable]="editando()"></div>
+
+      @if (actual(); as l) {
+        <div class="dato">
+          <mat-icon class="icono">location_on</mat-icon>
+          <span class="etiqueta">Nombre del Lugar</span>
+        </div>
+        @if (editando()) {
+          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="campo-nombre">
+            <input matInput [ngModel]="l.nombre" (ngModelChange)="cambiarNombre($event)" aria-label="Nombre del lugar" />
+          </mat-form-field>
+        } @else {
+          <p class="valor">{{ l.nombre }}</p>
+        }
+
+        <div class="dato">
+          <mat-icon class="icono lleno">error</mat-icon>
+          <span class="etiqueta">Radio de la geocerca</span>
+        </div>
+        <mat-slider class="radio" discrete [min]="10" [max]="100" [step]="5">
+          <input matSliderThumb [value]="l.radio" (valueChange)="cambiarRadio($event)" aria-label="Radio de la geocerca" />
+        </mat-slider>
+
+        <p class="ayuda">
+          Puedes adaptar el radio de activación para este lugar en el mapa, la alarma sonará dentro del rango especificado.
+          @if (editando()) {
+            Toca el mapa o arrastra el marcador para mover el lugar.
+          }
+        </p>
+
+        <div class="acciones">
+          @if (editando()) {
+            <button mat-flat-button class="boton-tonal negro" (click)="guardar()">
+              Guardar <mat-icon iconPositionEnd>save</mat-icon>
+            </button>
+            <button mat-flat-button class="boton-tonal" (click)="eliminar()">
+              Eliminar <mat-icon iconPositionEnd class="lleno">delete</mat-icon>
+            </button>
+            <button mat-flat-button class="boton-tonal" (click)="cancelar()">
+              Cancelar <mat-icon iconPositionEnd>close</mat-icon>
+            </button>
+          } @else {
+            <button mat-flat-button class="boton-tonal claro" (click)="editar()">
+              Editar <mat-icon iconPositionEnd>edit</mat-icon>
+            </button>
+          }
+        </div>
+      } @else {
+        <p class="ayuda">No tienes lugares guardados.</p>
+      }
+    </div>
+  </div>
+</section>

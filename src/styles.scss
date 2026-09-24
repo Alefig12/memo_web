@@ -1,0 +1,235 @@
+@use '@angular/material' as mat;
+
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('/fonts/Baloo2-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('/fonts/Baloo2-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('/fonts/Baloo2-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('/fonts/Baloo2-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('/fonts/Baloo2-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+}
+@font-face {
+  font-family: 'Pacifico';
+  src: url('/fonts/Pacifico-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+html {
+  color-scheme: light;
+
+  @include mat.theme((
+    color: (
+      primary: mat.$orange-palette,
+      tertiary: mat.$cyan-palette,
+      theme-type: light,
+    ),
+    typography: (
+      plain-family: 'Baloo 2',
+      brand-family: 'Baloo 2',
+      medium: 500,
+      bold: 700,
+    ),
+    density: 0,
+  ));
+
+  @include mat.theme-overrides((
+    primary: #ffbd35,
+    on-primary: #ffffff,
+    primary-container: #ffe7a8,
+    on-primary-container: #3d2e00,
+    primary-fixed: #ffdea9,
+    primary-fixed-dim: #fdbb33,
+    on-primary-fixed: #271900,
+    on-primary-fixed-variant: #5e4200,
+    secondary: #815500,
+    on-secondary: #ffffff,
+    secondary-container: #d38e00,
+    on-secondary-container: #492e00,
+    secondary-fixed: #ffddb2,
+    secondary-fixed-dim: #ffb94c,
+    on-secondary-fixed: #291800,
+    on-secondary-fixed-variant: #624000,
+    tertiary: #586060,
+    on-tertiary: #ffffff,
+    tertiary-container: #e1e9e9,
+    on-tertiary-container: #616969,
+    error: #ba1a1a,
+    on-error: #ffffff,
+    error-container: #ffdad6,
+    on-error-container: #93000a,
+    surface: #fff8f3,
+    on-surface: #201b12,
+    on-surface-variant: #504534,
+    surface-dim: #e4d8ca,
+    surface-bright: #fff8f3,
+    surface-container-lowest: #ffffff,
+    surface-container-low: #fef2e3,
+    surface-container: #f8ecdd,
+    surface-container-high: #f2e6d8,
+    surface-container-highest: #ede1d2,
+    outline: #827561,
+    outline-variant: #d4c4ad,
+    inverse-surface: #362f26,
+    inverse-on-surface: #fbefe0,
+    inverse-primary: #fdbb33,
+    shadow: #000000,
+    scrim: #000000,
+  ));
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Baloo 2', sans-serif;
+  background: var(--mat-sys-surface);
+  color: #000;
+}
+
+.material-symbols-outlined.lleno {
+  font-variation-settings: 'FILL' 1;
+}
+
+.cdk-overlay-backdrop.fondo-gris {
+  background: rgba(142, 142, 147, 0.55);
+}
+
+.leaflet-container {
+  font-family: 'Baloo 2', sans-serif;
+}
+
+.campo-memo {
+  position: relative;
+  display: block;
+
+  .etiqueta {
+    position: absolute;
+    z-index: 1;
+    top: -8px;
+    left: 12px;
+    padding: 0 4px;
+    height: 38px;
+    line-height: 38px;
+    background: var(--mat-sys-primary);
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 24px;
+    font-weight: 500;
+    pointer-events: none;
+  }
+
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    height: 72px;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-height: 72px;
+    padding-top: 36px !important;
+    padding-bottom: 8px !important;
+  }
+
+  input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  &.oscuro {
+    @include mat.form-field-overrides((
+      outlined-outline-color: #3d2e00,
+      outlined-hover-outline-color: #3d2e00,
+      outlined-focus-outline-color: #3d2e00,
+    ));
+
+    .etiqueta {
+      color: var(--mat-sys-on-primary-container);
+    }
+  }
+}
+
+.boton-cafe.mat-mdc-button-base {
+  @include mat.button-overrides((
+    filled-container-color: #362f26,
+    filled-label-text-color: #fbefe0,
+    filled-container-shape: 16px,
+    filled-label-text-size: 18px,
+    filled-label-text-weight: 500,
+    filled-container-height: 61px,
+  ));
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+}
+
+.boton-tonal.mat-mdc-button-base {
+  @include mat.button-overrides((
+    filled-container-color: #e4d8ca,
+    filled-label-text-color: #201b12,
+    filled-container-shape: 16px,
+    filled-label-text-size: 18px,
+    filled-label-text-weight: 500,
+    filled-container-height: 43px,
+    filled-icon-spacing: 10px,
+  ));
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+
+  &.claro {
+    @include mat.button-overrides((filled-container-color: #d4c4ad));
+  }
+
+  &.negro {
+    @include mat.button-overrides((
+      filled-container-color: #201b12,
+      filled-label-text-color: #fbefe0,
+    ));
+  }
+
+  .mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.dialogo-memo {
+  @include mat.dialog-overrides((
+    container-shape: 12px,
+    container-color: #fff8f3,
+    container-max-width: 504px,
+  ));
+
+  .mat-mdc-dialog-surface {
+    border: 1px solid var(--mat-sys-outline);
+    overflow: hidden;
+  }
+}
